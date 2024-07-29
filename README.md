@@ -1,102 +1,79 @@
-Map Parser and PNG Generator Libraries
-======================================
+Code Documentation
+==================
 
-This document provides usage instructions for various implementations of a map parser and PNG generator in different programming languages.
+Binding Class
+-------------
 
-Python
-------
+The `Binding` class encapsulates the associations between texture, collider, and trigger names with their respective attributes.
 
-The Python implementation allows you to parse a map file and generate PNG images for textures, colliders, and triggers.
+### Attributes
 
-### Usage
+*   **`texture_bindings`** (`dict`): A dictionary mapping texture names to file paths.
+*   **`collider_bindings`** (`dict`): A dictionary mapping collider types to their associated color strings.
+*   **`trigger_bindings`** (`dict`): A dictionary mapping trigger types to their associated color strings.
 
-1.  Install the required libraries (e.g., Pillow for image handling).
-2.  Call the \`generate\_image\_from\_data\` function with the pixel data.
-3.  Use \`write\_png\` to save the PNG file to disk.
+### Methods
 
-    python script.py
+#### `__init__(self, texture_bindings, collider_bindings, trigger_bindings)`
 
-C++
----
+Initializes the `Binding` object with texture, collider, and trigger bindings.
 
-The C++ implementation uses libpng to handle PNG encoding. It provides functions to create and save PNG files based on map data.
+**Parameters:**
 
-### Usage
+*   `texture_bindings` (`dict`): A dictionary for texture name-to-path mappings.
+*   `collider_bindings` (`dict`): A dictionary for collider type-to-color mappings.
+*   `trigger_bindings` (`dict`): A dictionary for trigger type-to-color mappings.
 
-1. use cmake to build
-2.  Use the \`generate\_pixel\_data\` function to create pixel data.
-3.  Call \`write\_png\` to save the PNG files.
+#### `get_texture_path(self, texture_name)`
 
-C#
---
+Returns the file path for a given texture name.
 
-The C# implementation generates PNG files from pixel data and is designed to work with .NET.
+**Parameters:**
 
-### Usage
+*   `texture_name` (`str`): The name of the texture.
 
-1.  Add the \`PngGenerator\` class to your project.
-2.  Call \`GeneratePixelData\` to create the pixel data.
-3.  Use \`WritePng\` to write the PNG files to disk.
+**Returns:** `str`: The file path associated with the texture name. Returns an empty string if not found.
 
+#### `get_collider_color(self, collider_type)`
 
-Rust
-----
+Returns the color associated with a given collider type.
 
-The Rust implementation provides functions to generate and write PNG files using only the standard library.
+**Parameters:**
 
-### Usage
+*   `collider_type` (`str`): The type of the collider.
 
-1.  import the Rust code into your program
-2.  Call \`generate\_pixel\_data\` to produce pixel data.
-3.  Use \`write\_png\` to save the PNG files.
+**Returns:** `str`: The color associated with the collider type. Returns an empty string if not found.
 
-    cargo build
+#### `get_trigger_color(self, trigger_type)`
 
-Haskell
--------
+Returns the color associated with a given trigger type.
 
-The Haskell implementation generates PNG files using standard libraries. It handles image creation and data generation.
+**Parameters:**
 
-### Usage
+*   `trigger_type` (`str`): The type of the trigger.
 
-1.  import the Haskell code into your progect
-2.  Use \`generatePixelData\` to generate image data.
-3.  Call \`writePng\` to output the PNG files.
+**Returns:** `str`: The color associated with the trigger type. Returns an empty string if not found.
 
+File Format
+-----------
 
-Lua
----
+The file parsed by the `parse_map_file` function must follow a specific format, where each line defines a texture, collider, trigger, or binding. The format uses key-value pairs separated by an equals sign (`=`). Values can be tuples of integers (for colors or coordinates) or strings (for file paths).
 
-The Lua implementation handles PNG file creation and pixel data generation using only Lua's standard libraries.
+### Syntax
 
-### Usage
+*   **Texture Definition:** `Texture[Name] = [R, G, B, A]`
+*   **Collider Definition:** `Collider[Type] = [R, G, B, A]`
+*   **Trigger Definition:** `Trigger[Type] = [R, G, B, A]`
+*   **Binding Definition:** `Binding: Type = Path`
 
-1.  import the Lua script into your program
-2.  Use \`generatePixelData\` to prepare image data.
-3.  Call \`writePng\` to save the PNG files.
+### Example
 
-    lua script.lua
+    Texture[Grass] = [34, 139, 34, 255]
+    Collider[Wall] = [0, 0, 0, 255]
+    Trigger[SpawnPoint] = [255, 255, 0, 255]
+    Binding: Texture:Grass = path/to/grass_texture.png
+    Binding: Collider:Wall = path/to/wall_texture.png
+    Binding: Trigger:SpawnPoint = path/to/spawn_point_texture.png
+    
 
-JavaScript (Node.js)
---------------------
-
-The Node.js implementation generates PNG files using built-in modules. It includes functions to handle pixel data and PNG encoding.
-
-### Usage
-
-1.  import the script into your files 
-2.  Use \`generatePixelData\` to create image data.
-3.  Call \`writePng\` to output the PNG files.
-
-    node script.js
-
-Java
-----
-
-The Java implementation provides functionality to generate PNG images using standard Java libraries. It includes methods for pixel data and PNG file creation.
-
-### Usage
-
-1.  import the Java code into your project
-2.  Call \`generatePixelData\` to prepare the image data.
-3.  Use \`writePng\` to save the PNG files to disk.
+In this example, `Grass` is defined as a texture with an RGBA color of (34, 139, 34, 255), `Wall` is defined as a collider with a black color (0, 0, 0, 255), and `SpawnPoint` is defined as a trigger with a yellow color (255, 255, 0, 255). The bindings associate these elements with specific file paths.

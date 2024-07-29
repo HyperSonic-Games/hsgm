@@ -55,7 +55,7 @@ def parse_map_file(file_path):
     binding = Binding(texture_bindings, collider_bindings, trigger_bindings)
     return binding, textures, colliders, triggers
 
-def WritePng(file_path, width, height, pixel_data):
+def ExportMapPart(file_path, width, height, pixel_data) -> Image:
     image = Image.new('RGBA', (width, height))
     image.putdata(pixel_data)
-    image.save(file_path)
+    return image
